@@ -181,14 +181,16 @@ object Accounts {
         if (lastCheckTime != 0L && current - lastCheckTime < checkInterval)
             return@runCatching
         cachePrefs.edit { putLong(key, current) }
-        val api = StringDecoder.decode("82kPqomaPXmNG1KYpemYwCxgGaViTMfWQ7oNyBh48mRC").toString(Charsets.UTF_8)
-        require(api.startsWith(StringDecoder.decode("JULvAwoUgmc").toString(Charsets.UTF_8)))
-        val info = HttpClient.get("$api/$mid")?.data<BlacklistInfo>() ?: return@runCatching
+//        val api = StringDecoder.decode("82kPqomaPXmNG1KYpemYwCxgGaViTMfWQ7oNyBh48mRC").toString(Charsets.UTF_8)
+//        require(api.startsWith(StringDecoder.decode("JULvAwoUgmc").toString(Charsets.UTF_8)))
+//        val info = HttpClient.get("$api/$mid")?.data<BlacklistInfo>() ?: return@runCatching
         val blockedKey = "user_blocked_$mid"
-        if (info.isBlacklist && info.banUntil.time > current) Utils.runOnMainThread {
+//        if (info.isBlacklist && info.banUntil.time > current) Utils.runOnMainThread {
+        if (false) Utils.runOnMainThread {
             cachePrefs.edit { putBoolean(blockedKey, true) }
             userBlocked = true
-            val banUntil = info.banUntil.format()
+//            val banUntil = info.banUntil.format()
+            val banUntil = 0
             val topActivity = ApplicationDelegate.getTopActivity()
             if (topActivity != null && !dialogShowing) {
                 AlertDialog.Builder(topActivity)
